@@ -1,0 +1,28 @@
+name: Test CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  Unit-Test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (GitHub)
+        uses: actions/checkout@v3
+
+      - name: Run Tests with Coverage
+        uses: devcontainers/ci@v0.3
+        with:
+          push: never
+          runCmd: |
+            bazel coverage -s --instrument_test_targets --experimental_cc_coverage --combined_report=lcov --coverage_report_generator=@bazel_tools//tools/test/CoverageOutputGenerator/java/com/google/devtools/coverageoutputgenerator:Main //...
+            genhtml --output genhtml "$(bazel info output_path)/_coverage/_coverage_report.dat"
+
+      - name: Archive Test Coverage HTML
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-coverage-html
+          path: genhtml
