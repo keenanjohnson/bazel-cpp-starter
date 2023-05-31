@@ -1,0 +1,1 @@
+build --cxxopt=-std=c++17 --jobs=4 --local_ram_resources=HOST_RAM*.5
