@@ -3,4 +3,12 @@ A starter project for using Bazel and C++ and GTest.
 
 It also includes a VSCode Dev / Docker Container for local development.
 
+### Build Source
+```shell
+ bazel build //...
+```
 
+### Run Tests
+```shell
+bazel test //... --test_output=errors
+```
